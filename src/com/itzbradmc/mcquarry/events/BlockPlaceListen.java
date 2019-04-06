@@ -121,7 +121,7 @@ public class BlockPlaceListen implements Listener {
         if(foundForth && foundSecond && foundThird){
             player.sendMessage("Found a successful quarry layout");
 
-            MCQuarry.quarryList.add(new Quarry(torch, secondTorch, thrirdTorch, forthTorch, placed, mcq, x, z, player.getWorld()));
+            MCQuarry.quarryList.add(new Quarry(torch, secondTorch, thrirdTorch, forthTorch, placed, mcq, x, z, player.getWorld(), player));
 
         }
 

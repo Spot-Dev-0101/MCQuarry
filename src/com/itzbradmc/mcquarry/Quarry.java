@@ -6,6 +6,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class Quarry {
 
@@ -21,13 +24,17 @@ public class Quarry {
     private int x = 0;
     private int z = 0;
 
+    private Player player;
+
+    private Chest chest;
+
     int countX = 0;
     int countY = 0;
     int countZ = 0;
 
     private Location currentLocation;
 
-    public Quarry(Block torch1, Block torch2, Block torch3, Block torch4, Block controller, MCQuarry mcq, int x, int z, World world){
+    public Quarry(Block torch1, Block torch2, Block torch3, Block torch4, Block controller, MCQuarry mcq, int x, int z, World world, Player player){
         this.torch1 = torch1;
         this.torch2 = torch2;
         this.torch3 = torch3;
@@ -36,8 +43,11 @@ public class Quarry {
         this.x = x;
         this.z = z;
         this.world = world;
+        this.player = player;
 
         currentLocation = torch1.getLocation();
+
+        checkForChest();
 
         Bukkit.getScheduler().runTaskTimer(mcq, new Runnable() {
             @Override
@@ -45,6 +55,28 @@ public class Quarry {
                 work();
             }
         }, 0, 10);
+
+    }
+
+    private void checkForChest(){
+        Block leftBlock = new Location(world, controller.getX()+1, controller.getY(), controller.getZ()).getBlock();
+        Block rightBlock = new Location(world, controller.getX()-1, controller.getY(), controller.getZ()).getBlock();
+        Block northBlock = new Location(world, controller.getX(), controller.getY(), controller.getZ()+1).getBlock();
+        Block southBlock = new Location(world, controller.getX(), controller.getY(), controller.getZ()-1).getBlock();
+
+        if(leftBlock.getType().name() == "CHEST"){
+            chest = (Chest) leftBlock.getState();
+            player.sendMessage("Found chest");
+        } else if(rightBlock.getType().name() == "CHEST"){
+            chest = (Chest) rightBlock.getState();
+            player.sendMessage("Found chest");
+        } else if(northBlock.getType().name() == "CHEST"){
+            chest = (Chest) northBlock.getState();
+            player.sendMessage("Found chest");
+        } else if(southBlock.getType().name() == "CHEST"){
+            chest = (Chest) southBlock.getState();
+            player.sendMessage("Found chest");
+        }
 
     }
 
@@ -68,46 +100,82 @@ public class Quarry {
         }
 
         currentLocation =  new Location(world,torch1.getX()+distX + countX, torch1.getY()-1 + countY, torch1.getZ()+distZ + countZ);
+
+        //
+        if(chest != null){
+            //chest.getBlockInventory().addItem(new ItemStack(currentLocation.getBlock().getType()));
+            chest.getInventory().addItem(new ItemStack(currentLocation.getBlock().getType()));
+            //chest.update(true);
+        } else{
+            Location dropLocation = new Location(world, controller.getX(), controller.getY() + 1, controller.getZ());
+            world.dropItem(controller.getLocation(), new ItemStack(currentLocation.getBlock().getType()));
+        }
+
+
+
         currentLocation.getBlock().setType(Material.AIR);
 
-        distX = (torch3.getX() - torch1.getX());
-        distZ = (torch3.getZ() - torch1.getZ());
+        distX = torch3.getX() - torch1.getX();
+        distZ = torch3.getZ() - torch1.getZ();
 
-        //if(distX < x){
-            ///distX = -distX;
-        //}
-       // if(distZ < z){
-            //distZ = -distZ;
-        //}
 
-        int tempCountZ = countZ;
-        int tempCountX = countX;
-
-        if(tempCountZ < 0){
-            tempCountZ = -tempCountZ+2;
-        } else{
-            tempCountZ -= 2;
-        }
-        if(tempCountX < 0){
-            tempCountX = -tempCountX-2;
-        } else{
-            tempCountX += 2;
-        }
-
-        MCQuarry.logger.info(countZ + " " + countX + " " + countY + " " + distX + " " + distZ);
-        if(!(tempCountZ > distZ && tempCountZ < -distZ)){
+        if(distX > 0){
+            player.sendMessage("X is getting higher " + distX + " " + countX);
             countX++;
-            countZ = 0;
-        } else {
-            //countX += x;
-            countZ += z;
+
+            if(countX > distX-2){
+                if(distZ > 0){
+                    player.sendMessage("Z is getting higher");
+                    countX = 0;
+                    countZ++;
+                }
+
+                if(distZ < 0){
+                    player.sendMessage("Z is getting lower");
+                    countX = 0;
+                    countZ--;
+                }
+            }
         }
 
-        if(tempCountX > distX){
-            countY--;
-            countX = 0;
-            countZ = 0;
+        if(distX < 0){
+            player.sendMessage("X is getting lower" + distX + " " + countX);
+            countX--;
+
+            if(countX < distX+2){
+                if(distZ > 0){
+                    player.sendMessage("Z  is getting higher" + distZ + " " + countZ);
+                    countX = 0;
+                    countZ++;
+                }
+
+                if(distZ < 0){
+                    player.sendMessage("Z is getting lower" + distZ + " " + countZ);
+                    countX = 0;
+                    countZ--;
+                }
+            }
         }
+
+        if(distZ > 0){
+
+            if(countZ > distZ-2){
+                countZ = 0;
+                countY--;
+            }
+
+        }
+
+        if(distZ < 0){
+
+            if(countZ < distZ+2){
+                countZ = 0;
+                countY--;
+            }
+
+        }
+
+
 
     }
 
