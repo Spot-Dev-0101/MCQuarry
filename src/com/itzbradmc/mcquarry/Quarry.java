@@ -10,6 +10,8 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+
 public class Quarry {
 
     private Block torch1;
@@ -32,11 +34,15 @@ public class Quarry {
 
     public int minedCount = 0;
 
+    public HashMap<Material, Integer> eachBlockCount = new HashMap<>();
+
     int countX = 0;
     int countY = 0;
     int countZ = 0;
 
     int delay = 10;
+
+    private int taskID = 0;
 
     private Location currentLocation;
 
@@ -55,13 +61,15 @@ public class Quarry {
 
         checkForChest();
 
-        Bukkit.getScheduler().runTaskTimer(mcq, new Runnable() {
+        taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(mcq, new Runnable() {
             @Override
             public void run() {
 
                 if(!controllerExists()){
                     active = false;
-                    //player.sendMessage("The quarry controller has been destroyed " + MCQuarry.quarryList.indexOf(this));
+                    player.sendMessage("The quarry controller has been destroyed");
+                    MCQuarry.quarryList.remove(controller.getLocation());
+                    Bukkit.getScheduler().cancelTask(taskID);
                 }
 
                 if(currentLocation.getY() < 3){
@@ -127,39 +135,44 @@ public class Quarry {
         currentLocation =  new Location(world,torch1.getX()+distX + countX, torch1.getY()-1 + countY, torch1.getZ()+distZ + countZ);
 
         //
-        if(currentLocation.getBlock().getType() != Material.AIR) {
+        if(currentLocation.getBlock().getType() != Material.AIR && currentLocation.getBlock().getType() != Material.BEDROCK) {
+            Material itemMaterial = getMinedVerson(currentLocation.getBlock());
             if (chest != null) {
                 //chest.getBlockInventory().addItem(new ItemStack(currentLocation.getBlock().getType()));
-                chest.getInventory().addItem(new ItemStack(getMinedVerson(currentLocation.getBlock())));
+                chest.getInventory().addItem(new ItemStack(itemMaterial));
                 //chest.update(true);
             } else {
                 Location dropLocation = new Location(world, controller.getX(), controller.getY() + 1, controller.getZ());
-                world.dropItem(controller.getLocation(), new ItemStack(getMinedVerson(currentLocation.getBlock())));
+                world.dropItem(controller.getLocation(), new ItemStack(itemMaterial));
             }
+
+            if(!eachBlockCount.containsKey(itemMaterial)){
+                eachBlockCount.put(itemMaterial, 1);
+            } else{
+                eachBlockCount.put(itemMaterial, eachBlockCount.get(itemMaterial)+1);
+            }
+
         }
 
 
-
-        currentLocation.getBlock().setType(Material.AIR);
-        minedCount++;
-
+        if(currentLocation.getBlock().getType() != Material.BEDROCK) {
+            currentLocation.getBlock().setType(Material.AIR);
+            minedCount++;
+        }
         distX = torch3.getX() - torch1.getX();
         distZ = torch3.getZ() - torch1.getZ();
 
 
         if(distX > 0){
-            player.sendMessage("X is getting higher " + distX + " " + countX);
             countX++;
 
             if(countX > distX-2){
                 if(distZ > 0){
-                    player.sendMessage("Z is getting higher");
                     countX = 0;
                     countZ++;
                 }
 
                 if(distZ < 0){
-                    player.sendMessage("Z is getting lower");
                     countX = 0;
                     countZ--;
                 }
@@ -167,18 +180,15 @@ public class Quarry {
         }
 
         if(distX < 0){
-            player.sendMessage("X is getting lower" + distX + " " + countX);
             countX--;
 
             if(countX < distX+2){
                 if(distZ > 0){
-                    player.sendMessage("Z  is getting higher" + distZ + " " + countZ);
                     countX = 0;
                     countZ++;
                 }
 
                 if(distZ < 0){
-                    player.sendMessage("Z is getting lower" + distZ + " " + countZ);
                     countX = 0;
                     countZ--;
                 }

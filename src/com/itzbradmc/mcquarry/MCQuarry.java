@@ -1,20 +1,24 @@
 package com.itzbradmc.mcquarry;
 
 import com.itzbradmc.mcquarry.commands.mqCommand;
+import com.itzbradmc.mcquarry.events.BlockInteractListen;
 import com.itzbradmc.mcquarry.events.BlockPlaceListen;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class MCQuarry extends JavaPlugin {
 
     public static Logger logger = Bukkit.getLogger();
 
-    public static ArrayList<Quarry> quarryList = new ArrayList<>();
+    //public static ArrayList<Quarry> quarryList = new ArrayList<>();
+    public static HashMap<Location, Quarry> quarryList = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -35,6 +39,7 @@ public class MCQuarry extends JavaPlugin {
 
     private void registerEvents(){
         getServer().getPluginManager().registerEvents(new BlockPlaceListen(this), this);
+        getServer().getPluginManager().registerEvents(new BlockInteractListen(), this);
     }
 
     private void registerCommands(){
