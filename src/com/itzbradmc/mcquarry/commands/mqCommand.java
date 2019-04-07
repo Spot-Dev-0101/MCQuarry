@@ -18,9 +18,9 @@ public class mqCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
 
-        if(args.length >= 2){
+        if(args.length >= 3){
             if(args[0].equalsIgnoreCase("give")){
-                give(args[1]);
+                give(args[1], args[2]);
             }
         } else{
             commandSender.sendMessage("Invalid command");
@@ -30,11 +30,18 @@ public class mqCommand implements CommandExecutor {
         return false;
     }
 
-    private void give(String playerName){
+    private void give(String playerName, String level){
 
         Player player = Bukkit.getPlayer(playerName);
-
         ItemStack item = new ItemStack(Material.IRON_BLOCK);
+
+        if(level.equalsIgnoreCase("1")){
+            item = new ItemStack(Material.IRON_BLOCK);
+        } else if(level.equalsIgnoreCase("2")){
+            item = new ItemStack(Material.GOLD_BLOCK);
+        } else if(level.equalsIgnoreCase("3")){
+            item = new ItemStack(Material.DIAMOND_BLOCK);
+        }
         ItemMeta itemMeta = item.getItemMeta();
 
         itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&eQuarry"));

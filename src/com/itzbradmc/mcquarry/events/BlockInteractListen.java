@@ -24,7 +24,7 @@ public class BlockInteractListen implements Listener {
         Player player = event.getPlayer();
 
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
-            if(event.getClickedBlock().getType() == Material.IRON_BLOCK){
+            if(event.getClickedBlock().getType() == Material.IRON_BLOCK || event.getClickedBlock().getType() == Material.GOLD_BLOCK || event.getClickedBlock().getType() == Material.DIAMOND_BLOCK){
                 if(MCQuarry.quarryList.containsKey(event.getClickedBlock().getLocation())){
                     player.sendMessage("This is a quarry block");
                     openMenu(MCQuarry.quarryList.get(event.getClickedBlock().getLocation()), player);

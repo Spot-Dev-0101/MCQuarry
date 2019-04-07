@@ -1,16 +1,16 @@
 package com.itzbradmc.mcquarry;
 
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 public class Quarry {
 
@@ -45,6 +45,7 @@ public class Quarry {
     private int taskID = 0;
 
     private Location currentLocation;
+    private List<Location> indicatorLocation = new ArrayList<>();
 
     public Quarry(Block torch1, Block torch2, Block torch3, Block torch4, Block controller, MCQuarry mcq, int x, int z, World world, Player player){
         this.torch1 = torch1;
@@ -58,6 +59,15 @@ public class Quarry {
         this.player = player;
 
         currentLocation = torch1.getLocation();
+        //indicatorLocation.add(new Location(world, currentLocation.getX(), currentLocation.getY()+1, currentLocation.getZ()));
+
+        if(controller.getType() == Material.IRON_BLOCK){
+            delay = 15;
+        } else if(controller.getType() == Material.GOLD_BLOCK){
+            delay = 10;
+        } else if(controller.getType() == Material.DIAMOND_BLOCK){
+            delay = 5;
+        }
 
         checkForChest();
 
@@ -67,7 +77,11 @@ public class Quarry {
 
                 if(!controllerExists()){
                     active = false;
-                    player.sendMessage("The quarry controller has been destroyed");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("destroyed")));
+                    for (Location loc: indicatorLocation) {
+                        loc.getBlock().setType(Material.AIR);
+                    }
+                    //indicatorLocation.getBlock().setType(Material.AIR);
                     MCQuarry.quarryList.remove(controller.getLocation());
                     Bukkit.getScheduler().cancelTask(taskID);
                 }
@@ -88,7 +102,7 @@ public class Quarry {
     }
 
     private boolean controllerExists(){
-        if(controller.getLocation().getBlock().getType() == Material.IRON_BLOCK){
+        if(controller.getLocation().getBlock().getType() == Material.IRON_BLOCK || controller.getLocation().getBlock().getType() == Material.GOLD_BLOCK || controller.getLocation().getBlock().getType() == Material.DIAMOND_BLOCK){
             return true;
         } else{
             return false;
@@ -132,9 +146,82 @@ public class Quarry {
             distZ = -1;
         }
 
+        for (Location loc: indicatorLocation) {
+            loc.getBlock().setType(Material.AIR);
+        }
+        indicatorLocation.clear();
         currentLocation =  new Location(world,torch1.getX()+distX + countX, torch1.getY()-1 + countY, torch1.getZ()+distZ + countZ);
+        //indicatorLocation = new Location(world, currentLocation.getX(), currentLocation.getY()+1, currentLocation.getZ());
+        for(int i = 0; i < -countY+1; i++){
+            indicatorLocation.add(new Location(world, currentLocation.getX(), currentLocation.getY()+i+1, currentLocation.getZ()));
+        }
+
+        Location topindicator = indicatorLocation.get(indicatorLocation.size()-1);
+
+
+
+
+
+
+
+        int xDist = (topindicator.getBlockX()-torch1.getX());
+        player.sendMessage("" + xDist);
+        if(xDist < 0){
+            for(int i = 0; i < -xDist; i++){
+                //player.sendMessage("" + (topindicator.getX()-i) + " " + i + " " + xDist);
+                indicatorLocation.add(new Location(world, topindicator.getX()-i, topindicator.getY(), topindicator.getZ()));
+            }
+            int secondxDist = (topindicator.getBlockX()-torch3.getX());
+            for(int i = 0; i < secondxDist; i++){
+                //player.sendMessage("s " + (topindicator.getX()+i) + " " + i + " " + secondxDist);
+                indicatorLocation.add(new Location(world, topindicator.getX()+i, topindicator.getY(), topindicator.getZ()));
+            }
+        }
+        if(xDist > 0){
+            for(int i = 0; i < xDist; i++){
+                //player.sendMessage("" + (topindicator.getX()-i) + " " + i + " " + xDist);
+                indicatorLocation.add(new Location(world, topindicator.getX()-i, topindicator.getY(), topindicator.getZ()));
+            }
+            int secondxDist = (topindicator.getBlockX()-torch3.getX());
+            for(int i = 0; i < -secondxDist; i++){
+                //player.sendMessage("s " + topindicator.getX()+i + " " + i + " " + secondxDist);
+                indicatorLocation.add(new Location(world, topindicator.getX()+i, topindicator.getY(), topindicator.getZ()));
+            }
+        }
+
+        int zDist = (topindicator.getBlockZ()-torch1.getZ());
+        player.sendMessage("" + zDist);
+        if(zDist < 0){
+            for(int i = 0; i < -zDist; i++){
+                player.sendMessage(" 2" + (topindicator.getZ()-i) + " " + i + " " + zDist);
+                indicatorLocation.add(new Location(world, topindicator.getX(), topindicator.getY(), topindicator.getZ()+i));
+            }
+            int secondzDist = (topindicator.getBlockZ()-torch3.getZ());
+            for(int i = 0; i < secondzDist; i++){
+                player.sendMessage("s 2 " + (topindicator.getZ()+i) + " " + i + " " + secondzDist);
+                indicatorLocation.add(new Location(world, topindicator.getX(), topindicator.getY(), topindicator.getZ()-i));
+            }
+        }
+        if(zDist > 0){
+            for(int i = 0; i < zDist; i++){
+                player.sendMessage(" 2" + (topindicator.getZ()-i) + " " + i + " " + zDist);
+                indicatorLocation.add(new Location(world, topindicator.getX(), topindicator.getY(), topindicator.getZ()+i));
+            }
+            int secondzDist = (topindicator.getBlockZ()-torch3.getZ());
+            for(int i = 0; i < -secondzDist; i++){
+                player.sendMessage("s 2 " + topindicator.getZ()+i + " " + i + " " + secondzDist);
+                indicatorLocation.add(new Location(world, topindicator.getX(), topindicator.getY(), topindicator.getZ()-i));
+            }
+        }
 
         //
+
+
+
+
+
+
+
         if(currentLocation.getBlock().getType() != Material.AIR && currentLocation.getBlock().getType() != Material.BEDROCK) {
             Material itemMaterial = getMinedVerson(currentLocation.getBlock());
             if (chest != null) {
@@ -157,6 +244,9 @@ public class Quarry {
 
         if(currentLocation.getBlock().getType() != Material.BEDROCK) {
             currentLocation.getBlock().setType(Material.AIR);
+            for (Location loc: indicatorLocation) {
+                loc.getBlock().setType(Material.OAK_FENCE);
+            }
             minedCount++;
         }
         distX = torch3.getX() - torch1.getX();
@@ -210,8 +300,10 @@ public class Quarry {
                 countZ = 0;
                 countY--;
             }
-
         }
+
+        //indicatorLocation.add(new Location(world, currentLocation.getX(), currentLocation.getY()-countY+1, currentLocation.getZ()));
+
     }
 
 

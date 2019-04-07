@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ public class MCQuarry extends JavaPlugin {
 
     public static Logger logger = Bukkit.getLogger();
 
+    public static FileConfiguration config;
+
     //public static ArrayList<Quarry> quarryList = new ArrayList<>();
     public static HashMap<Location, Quarry> quarryList = new HashMap<>();
 
@@ -25,6 +29,7 @@ public class MCQuarry extends JavaPlugin {
         super.onEnable();
         logger.info("Enabled");
 
+        loadConfig();
         registerEvents();
         registerCommands();
 
@@ -34,6 +39,11 @@ public class MCQuarry extends JavaPlugin {
     public void onDisable() {
         super.onDisable();
         logger.info("Disabled");
+    }
+
+    private void loadConfig(){
+        saveDefaultConfig();
+        config = getConfig();
     }
 
 

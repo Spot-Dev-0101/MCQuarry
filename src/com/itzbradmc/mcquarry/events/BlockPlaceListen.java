@@ -51,6 +51,8 @@ public class BlockPlaceListen implements Listener {
         boolean foundThird = false;
         boolean foundForth = false;
 
+        int size = MCQuarry.config.getInt("maxSize");
+
         Block secondTorch = torch;
         Block thrirdTorch = torch;
         Block forthTorch = torch;
@@ -58,13 +60,13 @@ public class BlockPlaceListen implements Listener {
         int secondX = z;
         int secondZ = x;
 
-        player.sendMessage("First at "  + "   " + torch.getX() + " " + torch.getZ());
+        //player.sendMessage("First at "  + "   " + torch.getX() + " " + torch.getZ());
 
-        for(int i = 1; i < 11; i++){
+        for(int i = 1; i < size+1; i++){
             Block currentBlock = new Location(player.getWorld(), torch.getX()+(x*i), torch.getY(), torch.getZ()+(z*i)).getBlock();
             //player.sendMessage("2" + currentBlock.getType().name());
             if(currentBlock.getType().name() == "REDSTONE_TORCH"){
-                player.sendMessage("Found second  "  + "   " + currentBlock.getX() + " " + currentBlock.getZ());
+                //player.sendMessage("Found second  "  + "   " + currentBlock.getX() + " " + currentBlock.getZ());
                 secondTorch = currentBlock;
                 foundSecond = true;
                 break;
@@ -74,12 +76,12 @@ public class BlockPlaceListen implements Listener {
 
 
         if(foundSecond == true){
-            for(int i = 1; i < 11; i++){
+            for(int i = 1; i < size+1; i++){
                 Block currentBlockLeft = new Location(player.getWorld(), secondTorch.getX()+(secondX*i), secondTorch.getY(), secondTorch.getZ()+(secondZ*i)).getBlock(); //left
 
                 //player.sendMessage("3" + currentBlockLeft.getType().name() + "   " + currentBlockLeft.getX() + " " + currentBlockLeft.getZ());
                 if(currentBlockLeft.getType().name() == "REDSTONE_TORCH"){
-                    player.sendMessage("Found third  " + "   " + currentBlockLeft.getX() + " " + currentBlockLeft.getZ());
+                    //player.sendMessage("Found third  " + "   " + currentBlockLeft.getX() + " " + currentBlockLeft.getZ());
                     thrirdTorch = currentBlockLeft;
                     foundThird = true;
                     break;
@@ -89,7 +91,7 @@ public class BlockPlaceListen implements Listener {
 
                 //player.sendMessage("3 " + currentBlockRight.getType().name() + "   " + currentBlockRight.getX() + " " + currentBlockRight.getZ());
                 if(currentBlockRight.getType().name() == "REDSTONE_TORCH"){
-                    player.sendMessage("Found third " + "   " + currentBlockRight.getX() + " " + currentBlockRight.getZ());
+                    //player.sendMessage("Found third " + "   " + currentBlockRight.getX() + " " + currentBlockRight.getZ());
                     thrirdTorch = currentBlockRight;
                     foundThird = true;
                     break;
@@ -101,12 +103,12 @@ public class BlockPlaceListen implements Listener {
         int thirdY = secondX;
 
         if(foundThird == true){
-            for(int i = 1; i < 11; i++){
+            for(int i = 1; i < size+1; i++){
                 Block currentBlockLeft = new Location(player.getWorld(), thrirdTorch.getX()+(thirdX*i), thrirdTorch.getY(), thrirdTorch.getZ()+(thirdY*i)).getBlock(); //left
 
                 //player.sendMessage("4" + currentBlockLeft.getType().name() + "   " + currentBlockLeft.getX() + " " + currentBlockLeft.getZ());
                 if(currentBlockLeft.getType().name() == "REDSTONE_TORCH"){
-                    player.sendMessage("Found forth  " + "   " + currentBlockLeft.getX() + " " + currentBlockLeft.getZ());
+                    //player.sendMessage("Found forth  " + "   " + currentBlockLeft.getX() + " " + currentBlockLeft.getZ());
                     forthTorch = currentBlockLeft;
                     foundForth = true;
                     break;
@@ -116,7 +118,7 @@ public class BlockPlaceListen implements Listener {
 
                 //player.sendMessage("4 " + currentBlockRight.getType().name() + "   " + currentBlockRight.getX() + " " + currentBlockRight.getZ());
                 if(currentBlockRight.getType().name() == "REDSTONE_TORCH"){
-                    player.sendMessage("Found forth " + "   " + currentBlockRight.getX() + " " + currentBlockRight.getZ());
+                    //player.sendMessage("Found forth " + "   " + currentBlockRight.getX() + " " + currentBlockRight.getZ());
                     forthTorch = currentBlockRight;
                     foundForth = true;
                     break;
@@ -125,10 +127,12 @@ public class BlockPlaceListen implements Listener {
         }
 
         if(foundForth && foundSecond && foundThird){
-            player.sendMessage("Found a successful quarry layout");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("foundLayout")));
 
             MCQuarry.quarryList.put(placed.getLocation(), new Quarry(torch, secondTorch, thrirdTorch, forthTorch, placed, mcq, x, z, player.getWorld(), player));
 
+        } else{
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("failedLayout")));
         }
 
     }

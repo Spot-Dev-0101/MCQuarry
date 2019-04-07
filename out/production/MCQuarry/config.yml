@@ -1,0 +1,5 @@
+maxSize: 20
+
+foundLayout: "&7Successfuly found a quarry layout"
+failedLayout: "&7Failed to find a quarry layout"
+destroyed: "&7Quarry has been destroyed"
