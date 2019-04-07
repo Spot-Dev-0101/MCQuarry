@@ -22,6 +22,7 @@ public class MCQuarry extends JavaPlugin {
         logger.info("Enabled");
 
         registerEvents();
+        registerCommands();
 
     }
 

@@ -34,6 +34,8 @@ public class Quarry {
     int countY = 0;
     int countZ = 0;
 
+    int delay = 10;
+
     private Location currentLocation;
 
     public Quarry(Block torch1, Block torch2, Block torch3, Block torch4, Block controller, MCQuarry mcq, int x, int z, World world, Player player){
@@ -55,16 +57,32 @@ public class Quarry {
             @Override
             public void run() {
 
+                if(!controllerExists()){
+                    active = false;
+                    //player.sendMessage("The quarry controller has been destroyed " + MCQuarry.quarryList.indexOf(this));
+                }
+
                 if(currentLocation.getY() < 3){
                     active = false;
                 }
 
+
+
                 if(active == true) {
+                    checkForChest();
                     work();
                 }
             }
-        }, 0, 10);
+        }, 0, delay);
 
+    }
+
+    private boolean controllerExists(){
+        if(controller.getLocation().getBlock().getType() == Material.IRON_BLOCK){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     private void checkForChest(){
@@ -75,16 +93,12 @@ public class Quarry {
 
         if(leftBlock.getType().name() == "CHEST"){
             chest = (Chest) leftBlock.getState();
-            player.sendMessage("Found chest");
         } else if(rightBlock.getType().name() == "CHEST"){
             chest = (Chest) rightBlock.getState();
-            player.sendMessage("Found chest");
         } else if(northBlock.getType().name() == "CHEST"){
             chest = (Chest) northBlock.getState();
-            player.sendMessage("Found chest");
         } else if(southBlock.getType().name() == "CHEST"){
             chest = (Chest) southBlock.getState();
-            player.sendMessage("Found chest");
         }
 
     }

@@ -3,12 +3,14 @@ package com.itzbradmc.mcquarry.events;
 import com.itzbradmc.mcquarry.MCQuarry;
 import com.itzbradmc.mcquarry.Quarry;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class BlockPlaceListen implements Listener {
 
@@ -21,21 +23,25 @@ public class BlockPlaceListen implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event){
         Player player = event.getPlayer();
+        ItemMeta im = player.getItemInHand().getItemMeta();
+        if(im.getDisplayName().equals(ChatColor.YELLOW + "Quarry")) {
 
-        Block leftBlock = new Location(player.getWorld(), event.getBlock().getX()+1, event.getBlock().getY(), event.getBlock().getZ()).getBlock();
-        Block rightBlock = new Location(player.getWorld(), event.getBlock().getX()-1, event.getBlock().getY(), event.getBlock().getZ()).getBlock();
-        Block northBlock = new Location(player.getWorld(), event.getBlock().getX(), event.getBlock().getY(), event.getBlock().getZ()+1).getBlock();
-        Block southBlock = new Location(player.getWorld(), event.getBlock().getX(), event.getBlock().getY(), event.getBlock().getZ()-1).getBlock();
+            Block leftBlock = new Location(player.getWorld(), event.getBlock().getX() + 1, event.getBlock().getY(), event.getBlock().getZ()).getBlock();
+            Block rightBlock = new Location(player.getWorld(), event.getBlock().getX() - 1, event.getBlock().getY(), event.getBlock().getZ()).getBlock();
+            Block northBlock = new Location(player.getWorld(), event.getBlock().getX(), event.getBlock().getY(), event.getBlock().getZ() + 1).getBlock();
+            Block southBlock = new Location(player.getWorld(), event.getBlock().getX(), event.getBlock().getY(), event.getBlock().getZ() - 1).getBlock();
 
 
-        if(leftBlock.getType().name() == "REDSTONE_TORCH"){
-            checkForTorches(player, leftBlock, 1, 0, event.getBlock());
-        } else if(rightBlock.getType().name() == "REDSTONE_TORCH"){
-            checkForTorches(player, rightBlock, -1, 0, event.getBlock());
-        } else if(northBlock.getType().name() == "REDSTONE_TORCH"){
-            checkForTorches(player, northBlock, 0, 1, event.getBlock());
-        } else if(southBlock.getType().name() == "REDSTONE_TORCH"){
-            checkForTorches(player, southBlock, 0, -1, event.getBlock());
+            if (leftBlock.getType().name() == "REDSTONE_TORCH") {
+                checkForTorches(player, leftBlock, 1, 0, event.getBlock());
+            } else if (rightBlock.getType().name() == "REDSTONE_TORCH") {
+                checkForTorches(player, rightBlock, -1, 0, event.getBlock());
+            } else if (northBlock.getType().name() == "REDSTONE_TORCH") {
+                checkForTorches(player, northBlock, 0, 1, event.getBlock());
+            } else if (southBlock.getType().name() == "REDSTONE_TORCH") {
+                checkForTorches(player, southBlock, 0, -1, event.getBlock());
+            }
+
         }
 
     }

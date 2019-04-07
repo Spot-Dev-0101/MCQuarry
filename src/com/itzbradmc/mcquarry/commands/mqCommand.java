@@ -26,6 +26,7 @@ public class mqCommand implements CommandExecutor {
             commandSender.sendMessage("Invalid command");
         }
 
+
         return false;
     }
 
@@ -40,8 +41,8 @@ public class mqCommand implements CommandExecutor {
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.translateAlternateColorCodes('&', "&7Place this next to an area"));
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&bordered with redstone torches"));
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&and a chest"));
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&7bordered with redstone torches"));
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&7and a chest"));
 
         itemMeta.setLore(lore);
 
