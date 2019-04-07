@@ -1,8 +1,10 @@
 package com.itzbradmc.mcquarry;
 
+import com.itzbradmc.mcquarry.commands.mqCommand;
 import com.itzbradmc.mcquarry.events.BlockPlaceListen;
-import net.minecraft.server.v1_13_R2.BlockPosition;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -34,6 +36,9 @@ public class MCQuarry extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockPlaceListen(this), this);
     }
 
-
+    private void registerCommands(){
+        getCommand("mq").setExecutor(new mqCommand());
+        getCommand("mcquarry").setExecutor(new mqCommand());
+    }
 }
 

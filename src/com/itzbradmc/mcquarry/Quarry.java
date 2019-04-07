@@ -28,6 +28,8 @@ public class Quarry {
 
     private Chest chest;
 
+    public boolean active = true;
+
     int countX = 0;
     int countY = 0;
     int countZ = 0;
@@ -52,7 +54,14 @@ public class Quarry {
         Bukkit.getScheduler().runTaskTimer(mcq, new Runnable() {
             @Override
             public void run() {
-                work();
+
+                if(currentLocation.getY() < 3){
+                    active = false;
+                }
+
+                if(active == true) {
+                    work();
+                }
             }
         }, 0, 10);
 
