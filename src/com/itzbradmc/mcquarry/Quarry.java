@@ -161,58 +161,31 @@ public class Quarry {
 
 
 
+        distX = torch3.getX() - torch1.getX();
+        distZ = torch3.getZ() - torch1.getZ();
 
 
-
-        int xDist = (topindicator.getBlockX()-torch1.getX());
-        player.sendMessage("" + xDist);
-        if(xDist < 0){
-            for(int i = 0; i < -xDist; i++){
-                //player.sendMessage("" + (topindicator.getX()-i) + " " + i + " " + xDist);
-                indicatorLocation.add(new Location(world, topindicator.getX()-i, topindicator.getY(), topindicator.getZ()));
+        if(distX < 0){
+            for(int i = 0; i < -distX+1; i++){
+                indicatorLocation.add(new Location(world, torch1.getX()-i, topindicator.getY(), topindicator.getZ()));
             }
-            int secondxDist = (topindicator.getBlockX()-torch3.getX());
-            for(int i = 0; i < secondxDist; i++){
-                //player.sendMessage("s " + (topindicator.getX()+i) + " " + i + " " + secondxDist);
-                indicatorLocation.add(new Location(world, topindicator.getX()+i, topindicator.getY(), topindicator.getZ()));
-            }
-        }
-        if(xDist > 0){
-            for(int i = 0; i < xDist; i++){
-                //player.sendMessage("" + (topindicator.getX()-i) + " " + i + " " + xDist);
-                indicatorLocation.add(new Location(world, topindicator.getX()-i, topindicator.getY(), topindicator.getZ()));
-            }
-            int secondxDist = (topindicator.getBlockX()-torch3.getX());
-            for(int i = 0; i < -secondxDist; i++){
-                //player.sendMessage("s " + topindicator.getX()+i + " " + i + " " + secondxDist);
-                indicatorLocation.add(new Location(world, topindicator.getX()+i, topindicator.getY(), topindicator.getZ()));
+        } else if(distX > 0){
+            for(int i = 0; i < distX+1; i++){
+                indicatorLocation.add(new Location(world, torch1.getX()+i, topindicator.getY(), topindicator.getZ()));
             }
         }
 
-        int zDist = (topindicator.getBlockZ()-torch1.getZ());
-        player.sendMessage("" + zDist);
-        if(zDist < 0){
-            for(int i = 0; i < -zDist; i++){
-                player.sendMessage(" 2" + (topindicator.getZ()-i) + " " + i + " " + zDist);
-                indicatorLocation.add(new Location(world, topindicator.getX(), topindicator.getY(), topindicator.getZ()+i));
+        if(distZ < 0){
+            for(int i = 0; i < -distZ+1; i++){
+                indicatorLocation.add(new Location(world, topindicator.getX(), topindicator.getY(), torch1.getZ()-i));
             }
-            int secondzDist = (topindicator.getBlockZ()-torch3.getZ());
-            for(int i = 0; i < secondzDist; i++){
-                player.sendMessage("s 2 " + (topindicator.getZ()+i) + " " + i + " " + secondzDist);
-                indicatorLocation.add(new Location(world, topindicator.getX(), topindicator.getY(), topindicator.getZ()-i));
+        } else if(distZ > 0){
+            for(int i = 0; i < distZ+1; i++){
+                indicatorLocation.add(new Location(world, topindicator.getX(), topindicator.getY(), torch1.getZ()+i));
             }
         }
-        if(zDist > 0){
-            for(int i = 0; i < zDist; i++){
-                player.sendMessage(" 2" + (topindicator.getZ()-i) + " " + i + " " + zDist);
-                indicatorLocation.add(new Location(world, topindicator.getX(), topindicator.getY(), topindicator.getZ()+i));
-            }
-            int secondzDist = (topindicator.getBlockZ()-torch3.getZ());
-            for(int i = 0; i < -secondzDist; i++){
-                player.sendMessage("s 2 " + topindicator.getZ()+i + " " + i + " " + secondzDist);
-                indicatorLocation.add(new Location(world, topindicator.getX(), topindicator.getY(), topindicator.getZ()-i));
-            }
-        }
+
+        topindicator.getBlock().setType(Material.HOPPER);
 
         //
 
@@ -245,7 +218,9 @@ public class Quarry {
         if(currentLocation.getBlock().getType() != Material.BEDROCK) {
             currentLocation.getBlock().setType(Material.AIR);
             for (Location loc: indicatorLocation) {
-                loc.getBlock().setType(Material.OAK_FENCE);
+                if(loc.getBlock().getType() != Material.HOPPER) {
+                    loc.getBlock().setType(Material.OAK_FENCE);
+                }
             }
             minedCount++;
         }
