@@ -30,6 +30,8 @@ public class Quarry {
 
     public boolean active = true;
 
+    public int minedCount = 0;
+
     int countX = 0;
     int countY = 0;
     int countZ = 0;
@@ -125,18 +127,21 @@ public class Quarry {
         currentLocation =  new Location(world,torch1.getX()+distX + countX, torch1.getY()-1 + countY, torch1.getZ()+distZ + countZ);
 
         //
-        if(chest != null){
-            //chest.getBlockInventory().addItem(new ItemStack(currentLocation.getBlock().getType()));
-            chest.getInventory().addItem(new ItemStack(currentLocation.getBlock().getType()));
-            //chest.update(true);
-        } else{
-            Location dropLocation = new Location(world, controller.getX(), controller.getY() + 1, controller.getZ());
-            world.dropItem(controller.getLocation(), new ItemStack(currentLocation.getBlock().getType()));
+        if(currentLocation.getBlock().getType() != Material.AIR) {
+            if (chest != null) {
+                //chest.getBlockInventory().addItem(new ItemStack(currentLocation.getBlock().getType()));
+                chest.getInventory().addItem(new ItemStack(getMinedVerson(currentLocation.getBlock())));
+                //chest.update(true);
+            } else {
+                Location dropLocation = new Location(world, controller.getX(), controller.getY() + 1, controller.getZ());
+                world.dropItem(controller.getLocation(), new ItemStack(getMinedVerson(currentLocation.getBlock())));
+            }
         }
 
 
 
         currentLocation.getBlock().setType(Material.AIR);
+        minedCount++;
 
         distX = torch3.getX() - torch1.getX();
         distZ = torch3.getZ() - torch1.getZ();
@@ -197,9 +202,26 @@ public class Quarry {
             }
 
         }
+    }
 
 
+    private Material getMinedVerson(Block origin){
 
+        if(origin.getType() == Material.DIAMOND_ORE){
+            return Material.DIAMOND;
+        } else if(origin.getType() == Material.COAL_ORE){
+            return Material.COAL;
+        } else if(origin.getType() == Material.EMERALD_ORE){
+            return Material.EMERALD;
+        } else if(origin.getType() == Material.REDSTONE_ORE){
+            return Material.REDSTONE;
+        } else if(origin.getType() == Material.STONE){
+            return Material.COBBLESTONE;
+        } else if(origin.getType() == Material.GRASS){
+            return Material.DIRT;
+        }
+
+        return origin.getType();
     }
 
 }
