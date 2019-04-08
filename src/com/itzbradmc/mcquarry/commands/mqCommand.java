@@ -22,7 +22,7 @@ public class mqCommand implements CommandExecutor {
             if(args[0].equalsIgnoreCase("give")){
                 give(args[1], args[2]);
             } else if(args[0].equalsIgnoreCase("giveupgrade")){
-                giveUpgrade(args[1], args[2]);
+                giveUpgrade(args[1], args[2], commandSender);
             }
         } else{
             commandSender.sendMessage("Invalid command");
@@ -32,26 +32,32 @@ public class mqCommand implements CommandExecutor {
         return false;
     }
 
-    private void giveUpgrade(String playerName, String upgrade){
+    private void giveUpgrade(String playerName, String upgrade, CommandSender cmds){
         Player player = Bukkit.getPlayer(playerName);
         ItemStack item = new ItemStack(Material.PAPER);
         ItemMeta itemMeta = item.getItemMeta();
+        boolean doit = true;
 
         if(upgrade.equalsIgnoreCase("doubledrops")){
             itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&eDouble drops"));
         } else if(upgrade.equalsIgnoreCase("randomdiamond")){
             itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&eRandom diamond"));
+        } else{
+            doit = false;
         }
+        if(doit == true) {
+            List<String> lore = new ArrayList<>();
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Place this in your"));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7quarry upgrade menu"));
 
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Place this in your"));
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&7quarry upgrade menu"));
+            itemMeta.setLore(lore);
 
-        itemMeta.setLore(lore);
+            item.setItemMeta(itemMeta);
 
-        item.setItemMeta(itemMeta);
-
-        player.getInventory().addItem(item);
+            player.getInventory().addItem(item);
+        } else{
+            cmds.sendMessage("Invalid upgrade item");
+        }
 
     }
 

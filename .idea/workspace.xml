@@ -8,15 +8,10 @@
   <component name="ChangeListManager">
     <list default="true" id="de1a6439-295c-45ce-96ba-bbbe49d3c94f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/MCQuarry_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/MCQuarry_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MCQuarry/com/itzbradmc/mcquarry/MCQuarry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MCQuarry/com/itzbradmc/mcquarry/MCQuarry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MCQuarry/com/itzbradmc/mcquarry/Quarry$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MCQuarry/com/itzbradmc/mcquarry/Quarry$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MCQuarry/com/itzbradmc/mcquarry/Quarry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MCQuarry/com/itzbradmc/mcquarry/Quarry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MCQuarry/com/itzbradmc/mcquarry/events/BlockInteractListen.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/MCQuarry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/MCQuarry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/Quarry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/Quarry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/commands/mqCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/commands/mqCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockInteractListen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockInteractionListen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockPlaceListen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockPlaceListen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugin.yml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -34,8 +29,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/MCQuarry.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="19" selection-start-line="19" selection-end-line="19" />
+            <state relative-caret-position="723">
+              <caret line="133" column="44" selection-start-line="133" selection-start-column="44" selection-end-line="133" selection-end-column="44" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -43,8 +41,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/Quarry.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="226" column="82" lean-forward="true" selection-start-line="226" selection-start-column="82" selection-end-line="226" selection-end-column="82" />
+            <state relative-caret-position="643">
+              <caret line="156" column="57" lean-forward="true" selection-start-line="156" selection-start-column="57" selection-end-line="156" selection-end-column="57" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/QuarryFile.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="18" selection-start-column="18" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -52,8 +59,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/MenuInteractionListen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="508">
-              <caret line="57" column="28" lean-forward="true" selection-start-line="57" selection-start-column="28" selection-end-line="57" selection-end-column="28" />
+            <state relative-caret-position="384">
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -64,8 +71,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockPlaceListen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+            <state>
+              <caret line="107" lean-forward="true" selection-start-line="107" selection-end-line="107" />
             </state>
           </provider>
         </entry>
@@ -74,19 +81,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockInteractionListen.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="722">
-              <caret line="51" column="46" lean-forward="true" selection-start-line="51" selection-start-column="46" selection-end-line="51" selection-end-column="46" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/commands/mqCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="67" column="36" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="57" />
+              <caret line="51" column="46" selection-start-line="51" selection-start-column="46" selection-end-line="51" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -95,10 +90,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/commands/mqCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="361">
+              <caret line="28" column="9" lean-forward="true" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+            <state relative-caret-position="30">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -106,8 +113,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/config.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="16" selection-start-line="8" selection-end-line="8" selection-end-column="16" />
+            <state relative-caret-position="90">
+              <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -136,21 +143,21 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/MCQuarry.java" />
-        <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockPlaceListen.java" />
         <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockInteractListen.java" />
-        <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/MCQuarry.java" />
         <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockInteractionListen.java" />
-        <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/commands/mqCommand.java" />
         <option value="$PROJECT_DIR$/src/config.yml" />
-        <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/Quarry.java" />
         <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/MenuInteractionListen.java" />
+        <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/QuarryFile.java" />
         <option value="$PROJECT_DIR$/src/plugin.yml" />
+        <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockPlaceListen.java" />
+        <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/Quarry.java" />
+        <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/MCQuarry.java" />
+        <option value="$PROJECT_DIR$/src/com/itzbradmc/mcquarry/commands/mqCommand.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
     <option name="width" value="1680" />
     <option name="height" value="1027" />
   </component>
@@ -162,6 +169,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -191,7 +199,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -246,14 +253,15 @@
       <workItem from="1554667810943" duration="17000" />
       <workItem from="1554677672406" duration="5630000" />
       <workItem from="1554724827450" duration="3270000" />
+      <workItem from="1554756449721" duration="5543000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45264000" />
+    <option name="totallyTimeSpent" value="50807000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1056" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Designer" order="0" />
@@ -261,7 +269,7 @@
       <window_info id="Capture Tool" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.11208267" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.16971917" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="1" />
@@ -273,7 +281,7 @@
       <window_info anchor="bottom" id="Run" order="7" />
       <window_info anchor="bottom" id="Debug" order="8" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32502708" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32406417" />
       <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="12" />
       <window_info anchor="right" id="Theme Preview" order="0" />
@@ -295,51 +303,10 @@
     <entry file="file://$PROJECT_DIR$/MCQuarry.iml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/MCQuarry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockPlaceListen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/commands/mqCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="67" column="36" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/Quarry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="226" column="82" lean-forward="true" selection-start-line="226" selection-start-column="82" selection-end-line="226" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockInteractionListen.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="722">
-          <caret line="51" column="46" lean-forward="true" selection-start-line="51" selection-start-column="46" selection-end-line="51" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/MenuInteractionListen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="57" column="28" lean-forward="true" selection-start-line="57" selection-start-column="28" selection-end-line="57" selection-end-column="28" />
+          <caret line="51" column="46" selection-start-line="51" selection-start-column="46" selection-end-line="51" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -348,15 +315,66 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/config.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="16" selection-start-line="8" selection-end-line="8" selection-end-column="16" />
+        <state relative-caret-position="90">
+          <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/MenuInteractionListen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/events/BlockPlaceListen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="107" lean-forward="true" selection-start-line="107" selection-end-line="107" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/Quarry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="643">
+          <caret line="156" column="57" lean-forward="true" selection-start-line="156" selection-start-column="57" selection-end-line="156" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/MCQuarry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="723">
+          <caret line="133" column="44" selection-start-line="133" selection-start-column="44" selection-end-line="133" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/QuarryFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="18" selection-start-column="18" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/itzbradmc/mcquarry/commands/mqCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="28" column="9" lean-forward="true" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

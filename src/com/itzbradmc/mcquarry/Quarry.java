@@ -4,9 +4,12 @@ package com.itzbradmc.mcquarry;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class Quarry {
@@ -33,13 +36,14 @@ public class Quarry {
 
     public HashMap<Material, Integer> eachBlockCount = new HashMap<>();
 
-    int countX = 0;
-    int countY = 0;
-    int countZ = 0;
+    public int countX = 0;
+    public int countY = 0;
+    public int countZ = 0;
 
-    int delay = 10;
+    public int delay = 10;
 
     private int taskID = 0;
+    private int fileUpdateTaskID = 0;
 
     private Location currentLocation;
     private List<Location> indicatorLocation = new ArrayList<>();
@@ -47,7 +51,7 @@ public class Quarry {
     public boolean doubleDrops = false;
     public boolean randomDiamond = false;
 
-    public Quarry(Block torch1, Block torch2, Block torch3, Block torch4, Block controller, MCQuarry mcq, int x, int z, World world, Player player){
+    public Quarry(Block torch1, Block torch2, Block torch3, Block torch4, Block controller, MCQuarry mcq, int x, int z, World world, Player player, boolean fromFile){
         this.torch1 = torch1;
         this.torch2 = torch2;
         this.torch3 = torch3;
@@ -71,6 +75,37 @@ public class Quarry {
 
         checkForChest();
 
+        if(fromFile == false) {
+
+            File f = new File("plugins/MCQuarry/quarry/" + controller.hashCode() + ".yml");
+            YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
+
+            yamlFile.set("torch1", torch1.getLocation().getX() + "," + torch1.getLocation().getY() + "," + torch1.getLocation().getZ() + "," + torch1.getWorld().getName());
+            yamlFile.set("torch2", torch2.getLocation().getX() + "," + torch2.getLocation().getY() + "," + torch2.getLocation().getZ() + "," + torch2.getWorld().getName());
+            yamlFile.set("torch3", torch3.getLocation().getX() + "," + torch3.getLocation().getY() + "," + torch3.getLocation().getZ() + "," + torch3.getWorld().getName());
+            yamlFile.set("torch4", torch4.getLocation().getX() + "," + torch4.getLocation().getY() + "," + torch4.getLocation().getZ() + "," + torch4.getWorld().getName());
+
+            yamlFile.set("controller", controller.getLocation().getX() + "," + controller.getLocation().getY() + "," + controller.getLocation().getZ() + "," + controller.getWorld().getName());
+
+            yamlFile.set("x", x);
+            yamlFile.set("z", z);
+
+            yamlFile.set("world", world.getName());
+
+            yamlFile.set("player", player.getUniqueId().toString());
+
+            yamlFile.set("delay", delay);
+
+            try {
+                yamlFile.save(f);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+
+
+
         taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(mcq, new Runnable() {
             @Override
             public void run() {
@@ -83,7 +118,10 @@ public class Quarry {
                     }
                     //indicatorLocation.getBlock().setType(Material.AIR);
                     MCQuarry.quarryList.remove(controller.getLocation());
+                    File f = new File("plugins/MCQuarry/quarry/" + controller.hashCode() + ".yml");
+                    f.delete();
                     Bukkit.getScheduler().cancelTask(taskID);
+                    Bukkit.getScheduler().cancelTask(fileUpdateTaskID);
                 }
 
                 if(currentLocation.getY() < 3){
@@ -99,11 +137,34 @@ public class Quarry {
                     for (Location loc: indicatorLocation) {
                         loc.getBlock().setType(Material.AIR);
                     }
-                    MCQuarry.quarryList.remove(controller.getLocation());
+                    //MCQuarry.quarryList.remove(controller.getLocation());
                     Bukkit.getScheduler().cancelTask(taskID);
                 }
             }
         }, 0, delay);
+
+        fileUpdateTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(mcq, new Runnable() {
+            @Override
+            public void run() {
+
+                File f = new File("plugins/MCQuarry/quarry/" + controller.hashCode() + ".yml");
+                YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
+
+                yamlFile.set("countX", countX);
+                yamlFile.set("countY", countY);
+                yamlFile.set("countZ", countZ);
+                yamlFile.set("minedCount", minedCount);
+                yamlFile.set("doubleDrops", doubleDrops);
+                yamlFile.set("randomDiamond", randomDiamond);
+
+                try {
+                    yamlFile.save(f);
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }, 0, 20);
 
     }
 
@@ -207,11 +268,13 @@ public class Quarry {
             if (chest != null) {
                 //chest.getBlockInventory().addItem(new ItemStack(currentLocation.getBlock().getType()));
                 chest.getInventory().addItem(new ItemStack(itemMaterial));
+                minedCount++;
                 if(doubleDrops == true){
                     chest.getInventory().addItem(new ItemStack(itemMaterial));
+                    minedCount++;
                 }
 
-                if(rand.nextInt(100) < MCQuarry.config.getInt("randomDiamondChance") && randomDiamond == true){
+                if(rand.nextInt(100) < MCQuarry.config.getInt("randomDiamondChance")+1 && randomDiamond == true){
                     chest.getInventory().addItem(new ItemStack(Material.DIAMOND));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("foundRandomDiamond")));
                 }
@@ -220,10 +283,12 @@ public class Quarry {
             } else {
                 Location dropLocation = new Location(world, controller.getX(), controller.getY() + 1, controller.getZ());
                 world.dropItem(dropLocation, new ItemStack(itemMaterial));
+                minedCount++;
                 if(doubleDrops == true){
                     world.dropItem(dropLocation, new ItemStack(itemMaterial));
+                    minedCount++;
                 }
-                if(rand.nextInt(100) < MCQuarry.config.getInt("randomDiamondChance") && randomDiamond == true){
+                if(rand.nextInt(100) < MCQuarry.config.getInt("randomDiamondChance")+1 && randomDiamond == true){
                     world.dropItem(dropLocation, new ItemStack(Material.DIAMOND));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("foundRandomDiamond")));
                 }
@@ -233,6 +298,7 @@ public class Quarry {
                 eachBlockCount.put(itemMaterial, 1);
             } else{
                 eachBlockCount.put(itemMaterial, eachBlockCount.get(itemMaterial)+1);
+
             }
 
         }
@@ -320,7 +386,7 @@ public class Quarry {
         } else if(origin.getType() == Material.GRASS_BLOCK){
             return Material.DIRT;
         }
-        minedCount++;
+
         return origin.getType();
     }
 

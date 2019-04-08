@@ -129,7 +129,7 @@ public class BlockPlaceListen implements Listener {
         if(foundForth && foundSecond && foundThird){
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("foundLayout")));
 
-            MCQuarry.quarryList.put(placed.getLocation(), new Quarry(torch, secondTorch, thrirdTorch, forthTorch, placed, mcq, x, z, player.getWorld(), player));
+            MCQuarry.quarryList.put(placed.getLocation(), new Quarry(torch, secondTorch, thrirdTorch, forthTorch, placed, mcq, x, z, player.getWorld(), player, false));
 
         } else{
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("failedLayout")));
