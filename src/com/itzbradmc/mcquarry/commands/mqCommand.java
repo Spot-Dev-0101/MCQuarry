@@ -21,6 +21,8 @@ public class mqCommand implements CommandExecutor {
         if(args.length >= 3){
             if(args[0].equalsIgnoreCase("give")){
                 give(args[1], args[2]);
+            } else if(args[0].equalsIgnoreCase("giveupgrade")){
+                giveUpgrade(args[1], args[2]);
             }
         } else{
             commandSender.sendMessage("Invalid command");
@@ -28,6 +30,29 @@ public class mqCommand implements CommandExecutor {
 
 
         return false;
+    }
+
+    private void giveUpgrade(String playerName, String upgrade){
+        Player player = Bukkit.getPlayer(playerName);
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta itemMeta = item.getItemMeta();
+
+        if(upgrade.equalsIgnoreCase("doubledrops")){
+            itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&eDouble drops"));
+        } else if(upgrade.equalsIgnoreCase("randomdiamond")){
+            itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&eRandom diamond"));
+        }
+
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Place this in your"));
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&7quarry upgrade menu"));
+
+        itemMeta.setLore(lore);
+
+        item.setItemMeta(itemMeta);
+
+        player.getInventory().addItem(item);
+
     }
 
     private void give(String playerName, String level){

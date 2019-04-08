@@ -1,17 +1,14 @@
 package com.itzbradmc.mcquarry;
 
 import com.itzbradmc.mcquarry.commands.mqCommand;
-import com.itzbradmc.mcquarry.events.BlockInteractListen;
+import com.itzbradmc.mcquarry.events.BlockInteractionListen;
 import com.itzbradmc.mcquarry.events.BlockPlaceListen;
+import com.itzbradmc.mcquarry.events.MenuInteractionListen;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -49,7 +46,8 @@ public class MCQuarry extends JavaPlugin {
 
     private void registerEvents(){
         getServer().getPluginManager().registerEvents(new BlockPlaceListen(this), this);
-        getServer().getPluginManager().registerEvents(new BlockInteractListen(), this);
+        getServer().getPluginManager().registerEvents(new BlockInteractionListen(), this);
+        getServer().getPluginManager().registerEvents(new MenuInteractionListen(), this);
     }
 
     private void registerCommands(){

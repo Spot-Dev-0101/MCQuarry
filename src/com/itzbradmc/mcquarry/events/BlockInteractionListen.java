@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockInteractListen implements Listener {
+public class BlockInteractionListen implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event){
@@ -48,6 +48,14 @@ public class BlockInteractListen implements Listener {
         item = new ItemStack(Material.CLOCK);
         itemMeta = item.getItemMeta();
         itemMeta.setDisplayName("Total mined: " + quarry.minedCount);
+
+        List<String> lore = new ArrayList<>();
+        lore.add(quarry.controller.getX()+"");
+        lore.add(quarry.controller.getY()+"");
+        lore.add(quarry.controller.getZ()+"");
+
+        itemMeta.setLore(lore);
+
         item.setItemMeta(itemMeta);
         menu.setItem(13, item);
 
@@ -58,7 +66,7 @@ public class BlockInteractListen implements Listener {
             item = new ItemStack(block);
             itemMeta = item.getItemMeta();
 
-            List<String> lore = new ArrayList<>();
+            lore = new ArrayList<>();
             lore.add(ChatColor.translateAlternateColorCodes('&', "&7Mined: &e" + quarry.eachBlockCount.get(block)));
 
             itemMeta.setLore(lore);
@@ -77,6 +85,13 @@ public class BlockInteractListen implements Listener {
             }
             count++;
         }
+
+        item = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+        itemMeta = item.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cUpgrades"));
+        item.setItemMeta(itemMeta);
+
+        menu.setItem(49, item);
 
         player.openInventory(menu);
     }

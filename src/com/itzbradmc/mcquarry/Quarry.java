@@ -19,7 +19,7 @@ public class Quarry {
     private Block torch3;
     private Block torch4;
 
-    private Block controller;
+    public Block controller;
 
     private World world;
 
@@ -46,6 +46,9 @@ public class Quarry {
 
     private Location currentLocation;
     private List<Location> indicatorLocation = new ArrayList<>();
+
+    public boolean doubleDrops = false;
+    public boolean randomDiamond = false;
 
     public Quarry(Block torch1, Block torch2, Block torch3, Block torch4, Block controller, MCQuarry mcq, int x, int z, World world, Player player){
         this.torch1 = torch1;
@@ -95,6 +98,12 @@ public class Quarry {
                 if(active == true) {
                     checkForChest();
                     work();
+                } else{
+                    for (Location loc: indicatorLocation) {
+                        loc.getBlock().setType(Material.AIR);
+                    }
+                    MCQuarry.quarryList.remove(controller.getLocation());
+                    Bukkit.getScheduler().cancelTask(taskID);
                 }
             }
         }, 0, delay);
