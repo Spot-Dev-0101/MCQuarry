@@ -36,20 +36,22 @@ public class MenuInteractionListen implements Listener {
                 event.setCancelled(true);
             } else if (event.getClickedInventory().getName().equals("Quarry upgrades")) {
 
-                if (event.getSlot() == 40) {
-                    player.sendMessage(ChatColor.stripColor(event.getCursor().getItemMeta().getDisplayName()) + "s");
+                if (event.getSlot() == 40 && event.getCursor().getItemMeta() != null) {
+                    //*player.sendMessage(ChatColor.stripColor(event.getCursor().getItemMeta().getDisplayName()) + "s");
                     Quarry quarry = getQuarry(event.getClickedInventory(), 4, player.getWorld());
                     if (ChatColor.stripColor(event.getCursor().getItemMeta().getDisplayName()).equals("Double drops")) {
                         quarry.doubleDrops = true;
-                        player.sendMessage("Activated Double Drops upgrade");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("activatedUpgrade").replace("%upgrade%", "Double Drops")));
                         //event.getClickedInventory().setItem(40, new ItemStack(Material.AIR));
+                        event.setCursor(new ItemStack(Material.AIR));
                         //player.closeInventory();
                         event.getCursor().setType(Material.AIR);
                         createUpgradeMenu(quarry, player);
                     } else if (ChatColor.stripColor(event.getCursor().getItemMeta().getDisplayName()).equals("Random diamond")) {
-                        quarry.doubleDrops = true;
-                        player.sendMessage("Activated Random Diamond upgrade");
+                        quarry.randomDiamond = true;
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("activatedUpgrade").replace("%upgrade%", "Random Diamond")));
                         //event.getClickedInventory().setItem(40, new ItemStack(Material.AIR));
+                        event.setCursor(new ItemStack(Material.AIR));
                         //player.closeInventory();
                         event.getCursor().setType(Material.AIR);
                         createUpgradeMenu(quarry, player);

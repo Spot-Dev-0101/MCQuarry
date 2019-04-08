@@ -7,10 +7,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class Quarry {
 
@@ -206,13 +203,30 @@ public class Quarry {
 
         if(currentLocation.getBlock().getType() != Material.AIR && currentLocation.getBlock().getType() != Material.BEDROCK) {
             Material itemMaterial = getMinedVerson(currentLocation.getBlock());
+            Random rand = new Random();
             if (chest != null) {
                 //chest.getBlockInventory().addItem(new ItemStack(currentLocation.getBlock().getType()));
                 chest.getInventory().addItem(new ItemStack(itemMaterial));
+                if(doubleDrops == true){
+                    chest.getInventory().addItem(new ItemStack(itemMaterial));
+                }
+
+                if(rand.nextInt(100) < MCQuarry.config.getInt("randomDiamondChance") && randomDiamond == true){
+                    chest.getInventory().addItem(new ItemStack(Material.DIAMOND));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("foundRandomDiamond")));
+                }
+
                 //chest.update(true);
             } else {
                 Location dropLocation = new Location(world, controller.getX(), controller.getY() + 1, controller.getZ());
-                world.dropItem(controller.getLocation(), new ItemStack(itemMaterial));
+                world.dropItem(dropLocation, new ItemStack(itemMaterial));
+                if(doubleDrops == true){
+                    world.dropItem(dropLocation, new ItemStack(itemMaterial));
+                }
+                if(rand.nextInt(100) < MCQuarry.config.getInt("randomDiamondChance") && randomDiamond == true){
+                    world.dropItem(dropLocation, new ItemStack(Material.DIAMOND));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("foundRandomDiamond")));
+                }
             }
 
             if(!eachBlockCount.containsKey(itemMaterial)){
@@ -231,7 +245,7 @@ public class Quarry {
                     loc.getBlock().setType(Material.OAK_FENCE);
                 }
             }
-            minedCount++;
+
         }
         distX = torch3.getX() - torch1.getX();
         distZ = torch3.getZ() - torch1.getZ();
@@ -303,10 +317,10 @@ public class Quarry {
             return Material.REDSTONE;
         } else if(origin.getType() == Material.STONE){
             return Material.COBBLESTONE;
-        } else if(origin.getType() == Material.GRASS){
+        } else if(origin.getType() == Material.GRASS_BLOCK){
             return Material.DIRT;
         }
-
+        minedCount++;
         return origin.getType();
     }
 

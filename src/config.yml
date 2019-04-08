@@ -1,5 +1,9 @@
 maxSize: 20
 
+randomDiamondChance: 1
+
 foundLayout: "&7Successfuly found a quarry layout"
 failedLayout: "&7Failed to find a quarry layout"
 destroyed: "&7Quarry has been destroyed"
+foundRandomDiamond: "&7A random diamond has been found"
+activatedUpgrade: "&7Quarry upgrade has been activated: %upgrade%"
