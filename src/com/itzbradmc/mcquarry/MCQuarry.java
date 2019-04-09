@@ -30,6 +30,8 @@ public class MCQuarry extends JavaPlugin {
     //public static ArrayList<Quarry> quarryList = new ArrayList<>();
     public static HashMap<Location, Quarry> quarryList = new HashMap<>();
 
+    public static HashMap<Location, Filler> fillerList = new HashMap<>();
+
     @Override
     public void onEnable() {
         super.onEnable();
@@ -118,7 +120,11 @@ public class MCQuarry extends JavaPlugin {
                         quarry.randomDiamond = ymlFile.getBoolean("randomDiamond");
                     }
 
-                    quarryList.put(controller.getLocation(), quarry);
+                    if(ymlFile.getString("type").equals("quarry")){
+                        quarryList.put(controller.getLocation(), quarry);
+                    }
+
+
 
 
                 } catch (FileNotFoundException e) {

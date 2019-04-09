@@ -80,6 +80,8 @@ public class Quarry {
             File f = new File("plugins/MCQuarry/quarry/" + controller.hashCode() + ".yml");
             YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
 
+            yamlFile.set("type", "quarry");
+
             yamlFile.set("torch1", torch1.getLocation().getX() + "," + torch1.getLocation().getY() + "," + torch1.getLocation().getZ() + "," + torch1.getWorld().getName());
             yamlFile.set("torch2", torch2.getLocation().getX() + "," + torch2.getLocation().getY() + "," + torch2.getLocation().getZ() + "," + torch2.getWorld().getName());
             yamlFile.set("torch3", torch3.getLocation().getX() + "," + torch3.getLocation().getY() + "," + torch3.getLocation().getZ() + "," + torch3.getWorld().getName());

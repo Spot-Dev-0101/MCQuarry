@@ -19,8 +19,8 @@ public class mqCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
 
         if(args.length >= 3){
-            if(args[0].equalsIgnoreCase("give")){
-                give(args[1], args[2]);
+            if(args[0].equalsIgnoreCase("give") && args.length >= 4){ // /mq give itzbradmc quarry 1
+                give(args[1], args[3], args[2]);
             } else if(args[0].equalsIgnoreCase("giveupgrade")){
                 giveUpgrade(args[1], args[2], commandSender);
             }
@@ -61,7 +61,7 @@ public class mqCommand implements CommandExecutor {
 
     }
 
-    private void give(String playerName, String level){
+    private void give(String playerName, String level, String itemType){
 
         Player player = Bukkit.getPlayer(playerName);
         ItemStack item = new ItemStack(Material.IRON_BLOCK);
@@ -75,18 +75,30 @@ public class mqCommand implements CommandExecutor {
         }
         ItemMeta itemMeta = item.getItemMeta();
 
-        itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&eQuarry"));
+        boolean giveItem = true;
 
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Place this next to an area"));
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&7bordered with redstone torches"));
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&7and a chest"));
+        if(itemType.equalsIgnoreCase("quarry")){
+            itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&eQuarry"));
+        } else if(itemType.equalsIgnoreCase("filler")){
+            itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&eFiller"));
+        } else{
+            giveItem = false;
+        }
 
-        itemMeta.setLore(lore);
+        if(giveItem == true) {
+            List<String> lore = new ArrayList<>();
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Place this next to an area"));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7bordered with redstone torches"));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7and a chest"));
 
-        item.setItemMeta(itemMeta);
+            itemMeta.setLore(lore);
 
-        player.getInventory().addItem(item);
+            item.setItemMeta(itemMeta);
+
+            player.getInventory().addItem(item);
+        } else{
+            player.sendMessage("Inavlid item type");
+        }
 
 
     }
