@@ -3,11 +3,13 @@ package com.itzbradmc.mcquarry;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Filler {
@@ -36,7 +38,7 @@ public class Filler {
 
     public boolean active = true;
 
-    public int minedCount = 0;
+    public int placedCount = 0;
 
     public int countX = 0;
     public int countY = 0;
@@ -71,23 +73,106 @@ public class Filler {
 
         currentLocation = torch1.getLocation();
 
+        if(controller.getType() == Material.IRON_BLOCK){
+            delay = 15;
+        } else if(controller.getType() == Material.GOLD_BLOCK){
+            delay = 10;
+        } else if(controller.getType() == Material.DIAMOND_BLOCK){
+            delay = 5;
+        }
+
 
         checkForChest();
         if(chest == null){
             player.sendMessage("A chest is required for a filler");
+            active = false;
+        }
+
+        if(fromFile == false) {
+
+            File f = new File("plugins/MCQuarry/quarry/" + controller.hashCode() + ".yml");
+            YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
+
+            yamlFile.set("type", "filler");
+
+            yamlFile.set("torch1", torch1.getLocation().getX() + "," + torch1.getLocation().getY() + "," + torch1.getLocation().getZ() + "," + torch1.getWorld().getName());
+            yamlFile.set("torch2", torch2.getLocation().getX() + "," + torch2.getLocation().getY() + "," + torch2.getLocation().getZ() + "," + torch2.getWorld().getName());
+            yamlFile.set("torch3", torch3.getLocation().getX() + "," + torch3.getLocation().getY() + "," + torch3.getLocation().getZ() + "," + torch3.getWorld().getName());
+            yamlFile.set("torch4", torch4.getLocation().getX() + "," + torch4.getLocation().getY() + "," + torch4.getLocation().getZ() + "," + torch4.getWorld().getName());
+            yamlFile.set("torch5", torch5.getLocation().getX() + "," + torch5.getLocation().getY() + "," + torch5.getLocation().getZ() + "," + torch5.getWorld().getName());
+            yamlFile.set("torch6", torch6.getLocation().getX() + "," + torch6.getLocation().getY() + "," + torch6.getLocation().getZ() + "," + torch6.getWorld().getName());
+            yamlFile.set("torch7", torch7.getLocation().getX() + "," + torch7.getLocation().getY() + "," + torch7.getLocation().getZ() + "," + torch7.getWorld().getName());
+            yamlFile.set("torch8", torch8.getLocation().getX() + "," + torch8.getLocation().getY() + "," + torch8.getLocation().getZ() + "," + torch8.getWorld().getName());
+
+            yamlFile.set("controller", controller.getLocation().getX() + "," + controller.getLocation().getY() + "," + controller.getLocation().getZ() + "," + controller.getWorld().getName());
+
+            yamlFile.set("x", x);
+            yamlFile.set("z", z);
+
+            yamlFile.set("world", world.getName());
+
+            yamlFile.set("player", player.getUniqueId().toString());
+
+            yamlFile.set("delay", delay);
+
+            try {
+                yamlFile.save(f);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
         }
 
         taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(mcq, new Runnable() {
             @Override
             public void run() {
 
+                if(!controllerExists()){
+                    active = false;
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', MCQuarry.config.getString("destroyed")));
+                    //indicatorLocation.getBlock().setType(Material.AIR);
+                    MCQuarry.quarryList.remove(controller.getLocation());
+                    File f = new File("plugins/MCQuarry/quarry/" + controller.hashCode() + ".yml");
+                    f.delete();
+                    Bukkit.getScheduler().cancelTask(taskID);
+                    Bukkit.getScheduler().cancelTask(fileUpdateTaskID);
+                }
+
                 if(active == true) {
+                    checkForChest();
                     work();
                 }
 
             }
         }, 0, delay);
 
+        fileUpdateTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(mcq, new Runnable() {
+            @Override
+            public void run() {
+
+                File f = new File("plugins/MCQuarry/quarry/" + controller.hashCode() + ".yml");
+                YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
+
+                yamlFile.set("countX", countX);
+                yamlFile.set("countY", countY);
+                yamlFile.set("countZ", countZ);
+
+                try {
+                    yamlFile.save(f);
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }, 0, 20);
+
+    }
+
+    private boolean controllerExists(){
+        if(controller.getLocation().getBlock().getType() == Material.IRON_BLOCK || controller.getLocation().getBlock().getType() == Material.GOLD_BLOCK || controller.getLocation().getBlock().getType() == Material.DIAMOND_BLOCK){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     private void work(){
@@ -177,7 +262,7 @@ public class Filler {
         Inventory chestInv = chest.getBlockInventory();
 
         for(int x = 0; x < chestInv.getSize(); x++){
-            if(chestInv.getItem(x) != null){
+            if(chestInv.getItem(x) != null && chestInv.getItem(x).getType().isBlock()){
                 ItemStack newIS = chestInv.getItem(x);
                 newIS.setAmount(chestInv.getItem(x).getAmount() - 1);
                 try {

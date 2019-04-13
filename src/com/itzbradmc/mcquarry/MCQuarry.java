@@ -108,20 +108,45 @@ public class MCQuarry extends JavaPlugin {
 
                     Player player = Bukkit.getPlayer(UUID.fromString(ymlFile.getString("player")));
 
-                    Quarry quarry = new Quarry(torch1, torch2, torch3, torch4, controller, this, x, z, world, player, true);
 
-                    if(ymlFile.contains("countX")){
-                        quarry.countX = ymlFile.getInt("countX");
-                        quarry.countY = ymlFile.getInt("countY");
-                        quarry.countZ = ymlFile.getInt("countZ");
-                        quarry.minedCount = ymlFile.getInt("minedCount");
-                        quarry.delay = ymlFile.getInt("delay");
-                        quarry.doubleDrops = ymlFile.getBoolean("doubleDrops");
-                        quarry.randomDiamond = ymlFile.getBoolean("randomDiamond");
-                    }
+
+
 
                     if(ymlFile.getString("type").equals("quarry")){
+                        Quarry quarry = new Quarry(torch1, torch2, torch3, torch4, controller, this, x, z, world, player, true);
+                        if(ymlFile.contains("countX")){
+                            quarry.countX = ymlFile.getInt("countX");
+                            quarry.countY = ymlFile.getInt("countY");
+                            quarry.countZ = ymlFile.getInt("countZ");
+                            quarry.minedCount = ymlFile.getInt("minedCount");
+                            quarry.delay = ymlFile.getInt("delay");
+                            quarry.doubleDrops = ymlFile.getBoolean("doubleDrops");
+                            quarry.randomDiamond = ymlFile.getBoolean("randomDiamond");
+                        }
                         quarryList.put(controller.getLocation(), quarry);
+                    } else if(ymlFile.getString("type").equals("filler")){
+
+
+                        String[] torch5String = ymlFile.getString("torch5").split(",");
+                        Block torch5 = new Location(Bukkit.getWorld(torch5String[3]), Double.valueOf(torch5String[0]), Double.valueOf(torch5String[1]), Double.valueOf(torch5String[2])).getBlock();
+
+                        String[] torch6String = ymlFile.getString("torch6").split(",");
+                        Block torch6 = new Location(Bukkit.getWorld(torch6String[3]), Double.valueOf(torch6String[0]), Double.valueOf(torch6String[1]), Double.valueOf(torch6String[2])).getBlock();
+
+                        String[] torch7String = ymlFile.getString("torch7").split(",");
+                        Block torch7 = new Location(Bukkit.getWorld(torch7String[3]), Double.valueOf(torch7String[0]), Double.valueOf(torch7String[1]), Double.valueOf(torch7String[2])).getBlock();
+
+                        String[] torch8String = ymlFile.getString("torch8").split(",");
+                        Block torch8 = new Location(Bukkit.getWorld(torch8String[3]), Double.valueOf(torch8String[0]), Double.valueOf(torch8String[1]), Double.valueOf(torch8String[2])).getBlock();
+
+                        Filler filler = new Filler(torch1, torch2, torch3, torch4, torch5, torch6, torch7, torch8, controller, this, x, z, world, player, true);
+
+                        if(ymlFile.contains("countX")){
+                            filler.countX = ymlFile.getInt("countX");
+                            filler.countY = ymlFile.getInt("countY");
+                            filler.countZ = ymlFile.getInt("countZ");
+                            filler.delay = ymlFile.getInt("delay");
+                        }
                     }
 
 
