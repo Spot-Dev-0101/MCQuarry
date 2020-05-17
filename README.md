@@ -4,3 +4,4 @@ Bukkit quarry plugin. Like Tekkit
 To Do List:
   - Save a quarry to a file so it can be reloaded if the server restarts
   - Quarry upgrades. Double drops.
+This is made very badly. Rewrite is pretty much required
